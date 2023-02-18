@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <title>Práctica 13 ejercicio 2</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+
+<body class="container-fluid" data-bs-theme="light">
+  <header class="row mb-4 p-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle">
+    <a id="toggle-dark-mode" class="col text-start" href="#" onclick="toggle_dark_mode(this);">
+      <i class="bi bi-moon-fill"></i>
+    </a>
+    <span class="col text-center">Creando imagen a partir de un Dockerfile</span>
+    <span class="col text-end">17/02/2023</span>
+  </header>
+  <div class="container">
+    <main>
+      <h1 class="mb-3">Descripción</h1>
+      <p>En esta práctica, aprenderemos a crear nuestras imágenes a partir de un Dockerfile para aprender a
+        trabajar con el ciclo de vida de nuestra aplicación.</p>
+      <script async id="asciicast-FbY7NMrqcnLu4EoTLS3pStsNm"
+        src="https://asciinema.org/a/FbY7NMrqcnLu4EoTLS3pStsNm.js"></script>
+      <h1 class="mb-3">Paso a paso</h1>
+      <div class="accordion mb-4" id="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+              aria-controls="collapseOne" aria-expanded="true">
+              Comandos 1-4
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+            <div class="accordion-body row">
+              <a onclick="startAt(1);" href="#" class="col-1 blue-500"><i class="bi bi-play-circle-fill"
+                  style="font-size: 20px;"></i></a>
+              <p class="col-11">
+                Creamos un directorio llamado <code>public</code> para realizar esta actividad. Allí escribimos nuestro
+                <code>index.html</code> con algún mensaje de prueba.
+                También prepraramos nuestro <code>Dockerfile</code>:<br>
+              <div class="py-2 bg-primary-subtle rounded">
+                <span class="text-success-emphasis"># Imagen de la que partimos (el servidor web).</span><br>
+                <code>FROM httpd:alpine</code><br>
+                <span class="text-success-emphasis"># Copiamos el index.html en la ruta en la que este servidor web va a
+                  servir contenido.</span><br>
+                <code>COPY index.html /usr/local/share/apache2/htdocs</code>
+              </div>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+              aria-controls="collapseTwo" aria-expanded="true">
+              Comando 5
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo">
+            <div class="accordion-body row">
+              <a onclick="startAt(26);" class="col-1 blue-500" href="#"><i class="bi bi-play-circle-fill" style="font-size: 20px;"></i></a>
+              <p class="col-11">
+                Construimos la imagen a partir del <code>Dockerfile</code> creado en el paso anterior. Con el parámetro
+                <code>-t</code> le especificamos el nombre de la imagen a construir. En mi caso especifico mi nombre de
+                cuenta de <b>Docker Hub</b> seguido del nombre de la imagen que deseo ponerle.<br>
+                <b>Importante:</b> no se nos puede olvidar el punto al final del comando. Esto sirve para indicar que el
+                fichero <code>Dockerfile</code> se encuentra en el directorio actual.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+              aria-expanded="true" aria-controls="collapseThree">
+              Comandos 6-9
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree">
+            <div class="accordion-body row">
+              <a onclick="startAt(52);" class="col-1 blue-500"><i class="bi bi-play-circle-fill"
+                  style="font-size: 20px;"></i></a>
+              <p class="col-11">
+                <code>docker push</code> <i class="bi bi-arrow-right"></i> subimos la imagen al repositorio <b>Docker Hub</b>.<br>
+                <code>docker rmi</code> <i class="bi bi-arrow-right"></i> eliminamos la imagen recién subida de nuestro equipo.<br>
+                <code>docker search</code> <i class="bi bi-arrow-right"></i> comprobamos que se haya subido al repositorio.<br>
+                <code>docker pull</code> <i class="bi bi-arrow-right"></i> descargamos la imagen de nuevo.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
+              aria-expanded="true" aria-controls="collapseFour">
+              Comandos 10 y 11
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour">
+            <div class="accordion-body row">
+              <a onclick="startAt(101);" href="#" class="col-1 blue-500"><i class="bi bi-play-circle-fill"
+                  style="font-size: 20px;"></i></a>
+              <p class="col-11">
+                Lanzamos un contenedor en segundo plano llamado <code>p13_ej2</code> partiendo de nuestra imagen, y vinculamos el puerto 80 del contenedor con el 8080 de nuestro anfitrión. Los parámetros <code>-ti</code> no son necesarios en este caso.<br>
+                Una vez arrancado el contenedor comprobamos con <code>curl</code> que el contenido que devuelva sea el mismo que habíamos puesto en el <code>index.html</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Accordion's end -->
+      </div>
+    </main>
+  </div>
+  <footer class="row p-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle">
+    <span class="col-1 text-start">Dalde</span>
+    <span class="col-11 text-end align-self-center">Desarrollo de aplicaciones web</span>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script>
+    /** Cambia el atributo src del iframe haciendo que se recargue y se reproduzca
+     * automáticamente en el tiempo especificado.
+     * seg: tiempo de inicio del vídeo
+    */
+    function startAt(seg) {
+      // asciinema iframe
+      const iframe = document.getElementsByTagName("iframe")[0];
+      iframe.src = `https://asciinema.org/a/FbY7NMrqcnLu4EoTLS3pStsNm/iframe?startAt=${seg}`;
+      // Desplazarse al nodo
+      iframe.scrollIntoView();
+    }
+
+    /** Activar/desactivar modo oscuro y cambiar el icono correspondiente */
+    function toggle_dark_mode(nodo) {
+      if (document.body.getAttribute("data-bs-theme") == "dark") {
+        document.body.setAttribute("data-bs-theme", "light");
+        nodo.children[0].className = "bi bi-moon-fill";
+      } else {
+        document.body.setAttribute("data-bs-theme", "dark");
+        nodo.children[0].className = "bi bi-brightness-high-fill";
+      }
+    }
+
+    // Mover el scroll hacia el iframe cuando se situe el ratón encima.
+    // Al hacer clic no funciona por ser un iframe de otro dominio.
+    // Creamos un intervalo para asegurar que al iframe le dé tiempo a
+    // cargarse.
+    // window.setTimeout(move_to_iframe, 250);
+    // function move_to_iframe() {
+    //   const iframe = document.getElementsByTagName("iframe")[0];
+    //   iframe.addEventListener("mouseenter", () => {
+    //     iframe.scrollIntoView();
+    //   });
+    // }
+  </script>
+</body>
+
+</html>
