@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  bookmedik:
+    container_name: bookmedik_web
+    image: dalde666/bookmedik:v1
+    environment:
+      BOOKMEDIK_USER: bookmedik
+      BOOKMEDIK_PASSWORD: bookmedik
+      HOSTNAME: db
+      DB_NAME: bookmedik
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+  db:
+    container_name: bookmedik_db
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: bookmedik
+      MARIADB_PASSWORD: bookmedik
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+    db_data:

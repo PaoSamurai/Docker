@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  bookmedik:
+    container_name: bookmedik-app
+    image: dalde666/bookmedik:v2
+    restart: always
+    environment:
+      USUARIO_BOOKMEDIK: bookmedik
+      CONTRA_BOOKMEDIK: bookmedik
+      DATABASE_HOST: bd_mariadb
+      NOMBRE_DB: bookmedik
+    ports:
+      - 8081:80
+    depends_on:
+      - db
+  db:
+    container_name: bd_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: bookmedik
+      MARIADB_PASSWORD: bookmedik
+    volumes:
+      - mariadb_data:/var/lib/mysql
+volumes:
+    mariadb_data:

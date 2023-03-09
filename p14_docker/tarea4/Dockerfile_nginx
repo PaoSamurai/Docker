@@ -1,0 +1,18 @@
+# Configurar servidor nginx
+FROM nginx:latest
+# Instalar actualizaciones
+RUN apt update && apt upgrade -y \
+# Instalar dependencias
+&& apt install mariadb-client -y \
+# Limpiar caché
+&& apt clean && rm -rf /var/lib/apt/lists/*
+# Copiar el fichero del configuración de nginx
+COPY default.conf /etc/nginx/conf.d/
+# Copiar la aplicación en la ruta de nginx
+COPY bookmedik /usr/share/nginx/html
+# Copiar el script
+COPY script.sh /tmp/
+# Doy permisos de ejecución y elimino el fichero por defecto
+RUN chmod +x /tmp/script.sh && rm /usr/share/nginx/html/index.html
+# Lanzo el script
+CMD ["bash", "-c", "/tmp/script.sh"]

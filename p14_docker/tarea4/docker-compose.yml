@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+
+  bookmedik:
+    container_name: bookmedik_web
+    image: dalde666/bookmedik-nginx:v3
+    environment:
+      BOOKMEDIK_USER: bookmedik
+      BOOKMEDIK_PASSWORD: bookmedik
+      HOSTNAME: db
+      DB_NAME: bookmedik
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+      - php
+    volumes:
+      - phpdocs:/usr/share/nginx/html/
+
+  db:
+    container_name: bookmedik_db
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: bookmedik
+      MARIADB_PASSWORD: bookmedik
+    volumes:
+      - db_data:/var/lib/mysql
+
+  php:
+    container_name: bookmedik_php
+    image: dalde666/bookmedik-php:v3
+    environment:
+      BOOKMEDIK_USER: bookmedik
+      BOOKMEDIK_PASSWORD: bookmedik
+      HOSTNAME: db
+      DB_NAME: bookmedik
+    volumes:
+      - phpdocs:/usr/share/nginx/html/
+
+
+volumes:
+    db_data:
+    phpdocs:
