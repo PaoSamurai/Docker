@@ -45,23 +45,37 @@ CMD ["bash", "-c", "/tmp/script.sh"]
 
 Fichero de configuración de Nginx.
 
-~~~ conf
+~~~ nginx
 server {
+    # Puerto de escucha
     listen       80;
+    # Puerto de escucha IPv6
     listen  [::]:80;
+    # Nombre del servidor
     server_name  localhost;
+    # Fichero de errores
     error_log  /var/log/nginx/error.log;
+    # Fichero de registro de acceso
     access_log /var/log/nginx/access.log;
+    # Directorio raíz
     root   /usr/share/nginx/html;
+    # Ficheros que buscar para servir
     index  index.php index.html;
+    # Ajustes para los ficheros PHP
     location ~ \.php$ {
+        # Código de error si no encuentra ningún fichero
         try_files $uri =404;
+        # Separar la ruta de los parámetros recibidos
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        # Debe coincidir con el nombre del contenedor especificado en el Docker Compose que contenga PHP-FPM
+        # Debe coincidir con el nombre del contenedor especificado en el Docker Compose que contenga PHP-FPM. Este escuchará por el puerto 9000.
         fastcgi_pass bookmedik_php:9000;
+        # Especificar el fichero PHP raíz
         fastcgi_index index.php;
+        # Habilitar FastCGI
         include fastcgi_params;
+        # Ruta del fichero de FastCGI
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        # Ruta adicional para la ruta de acceso de FastCGI
         fastcgi_param PATH_INFO $fastcgi_path_info;
     }
 }
@@ -88,7 +102,7 @@ services:
       - db
       - php
     volumes:
-      - phpdocs:/usr/share/nginx/html/
+      - nginx_data:/usr/share/nginx/html/
 
   db:
     container_name: bookmedik_db
@@ -110,11 +124,11 @@ services:
       HOSTNAME: db
       DB_NAME: bookmedik
     volumes:
-      - phpdocs:/usr/share/nginx/html/
+      - nginx_data:/usr/share/nginx/html/
 
 volumes:
     db_data:
-    phpdocs:
+    nginx_data:
 
 ~~~
 
@@ -126,7 +140,8 @@ volumes:
 # Darle tiempo al resto de contenedores a arrancar
 sleep 8 && mariadb -u $BOOKMEDIK_USER --password=$BOOKMEDIK_PASSWORD \
 -h $HOSTNAME $DB_NAME < /usr/share/nginx/html/schema.sql
-
+# Iniciamos Nginx en primer plano (inhabilitamos el demonio).
+# Esto permite imprimir los errores directamente en la consola, por lo que ayuda a monitorear y depurar fácilmente el servidor.
 nginx -g "daemon off;"
 ~~~
 
